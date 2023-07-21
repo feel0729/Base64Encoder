@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Base64 Encoder/Decoder</title>
+</head>
+<body>
+    <!-- Base64 Encoder -->
+    <h2>Base64 Encoder</h2>
+    <input id="plainText" type="text" placeholder="Enter plain text here">
+    <button onclick="encodeToBase64()">Encode</button>
+    <p id="encodedOutput"></p>
+    <button onclick="copyToClipboard('encodedOutput')">Copy Encoded</button>
+
+    <!-- Base64 Decoder -->
+    <h2>Base64 Decoder</h2>
+    <input id="encodedText" type="text" placeholder="Enter Base64 text here">
+    <button onclick="decodeFromBase64()">Decode</button>
+    <p id="decodedOutput"></p>
+    <button onclick="copyToClipboard('decodedOutput')">Copy Decoded</button>
+
+    <script>
+        function encodeToBase64() {
+            let plainText = document.getElementById('plainText').value;
+            let encodedText = btoa(unescape(encodeURIComponent(plainText)));
+            document.getElementById('encodedOutput').textContent = encodedText;
+        }
+
+        function decodeFromBase64() {
+            let encodedText = document.getElementById('encodedText').value;
+            try {
+                let decodedText = decodeURIComponent(escape(atob(encodedText)));
+                document.getElementById('decodedOutput').textContent = decodedText;
+            } catch(e) {
+                alert('解碼失敗，請確認你的輸入是否為有效的Base64編碼。');
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            let tempElem = document.createElement('textarea');
+            tempElem.value = document.getElementById(elementId).textContent;
+            document.body.appendChild(tempElem);
+            
+            tempElem.select();
+            document.execCommand('copy');
+
+            document.body.removeChild(tempElem);
+
+            alert('已複製到剪貼簿');
+        }
+    </script>
+</body>
+</html>
